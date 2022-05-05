@@ -8,7 +8,7 @@
 ---------------------------------------------------------------------
 
 -- Customers Entity
--- Query for  all customer and customer information
+-- Query to list customer and customer information
 select fname, lname, pronouns, age, customerAddress, email, membershipType 
 from customers;
 
@@ -19,10 +19,26 @@ values (:first_name_from_input, last_name_from_input, :pronouns_from_input, :age
         :customerAddress_from_input, email_from_input, :membershipType_from_input,
                        hasActiveMembership);
 
+-- Query to update customer information
+UPDATE customers
+SET :membershipType = :memebershipType_from_input, fname  = :first_name_from_input
+where customerID = :customerID_from_input
 
 
+-- Query to delete customer
+DELETE from Customers
+where :Customers.customerID = :customerID_from_input
+
+
+---------------------------------------------------------------------
+ -- All of the update, list, and delete queries for the -- Transactions table
+---------------------------------------------------------------------
 
 -- Transactions Entity
+
+-- Query to list all transactions
+
+
 -- Query for transaction by a particular customer
 select * from transactions
 JOIN Customers C on Transactions.CustomerID = C.customerID
@@ -49,10 +65,7 @@ join Equipment E on Inventory.equipmentID = E.equipmentID
 join Locations L on Inventory.locationID = L.locationID
 where equipmentType = 'Barbells' and equipmentQuantity > 5;
 
--- Query for Update customer memebership
-UPDATE customers
-SET membershipType = 'Basic'
-where fname = 'Pam' and lname = 'Pettengell';
+
 
 -- Query to Delete a customer
 DELETE from customers
