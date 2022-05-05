@@ -3,15 +3,30 @@
 -- denote the variables that will have data from the backend programming language
 
 
+---------------------------------------------------------------------
+ --   All of the update, list, and delete queries for the Customers table
+---------------------------------------------------------------------
 
-
+-- Customers Entity
 -- Query for  all customer and customer information
-select * from customers;
+select fname, lname, pronouns, age, customerAddress, email, membershipType 
+from customers;
 
+-- Query to insert into new customer into the database
+insert into customers (fname, lname, pronouns, age, customerAddress, email, membershipType,
+                       hasActiveMembership)
+values (:first_name_from_input, last_name_from_input, :pronouns_from_input, :age_from_input,  
+        :customerAddress_from_input, email_from_input, :membershipType_from_input,
+                       hasActiveMembership);
+
+
+
+
+-- Transactions Entity
 -- Query for transaction by a particular customer
 select * from transactions
 JOIN Customers C on Transactions.CustomerID = C.customerID
-WHERE c.fname = 'TAMAR';
+WHERE c.fname = :customerName;
 
 -- Query for inventory available in a current location
 SELECT * from inventory
