@@ -37,12 +37,30 @@ where :Customers.customerID = :customerID_from_input
 -- Transactions Entity
 
 -- Query to list all transactions
+select amount, transactionDate form transactions
 
 
 -- Query for transaction by a particular customer
 select * from transactions
 JOIN Customers C on Transactions.CustomerID = C.customerID
 WHERE c.fname = :customerName;
+
+-- Query to add a new Transaction
+insert into transactions (CustomerID, amount, transactionDate)
+values (:customerID_from_input, :amount_from_input, :transactionDate_from_input);
+
+-- Query to update customer information
+UPDATE transactions
+SET amount = :amount_from_input, transactionDate  = :transactionDate_from_input)
+where transactionID = :transactionID_from_input
+
+-- Query to delete transaction
+DELETE from transactions
+where transactions.transactionID = :transactionID_from_input
+
+
+
+
 
 -- Query for inventory available in a current location
 SELECT * from inventory
