@@ -73,15 +73,17 @@ where transactions.transactionID = :transactionID_from_input
 select activity, activityDays, startTime, duration
 from schedules
 
--- Query to a new schedule
+-- Query to a add new schedule
 insert into schedules (trainerID, activity, activityDays, startTime, duration, locationID)
 values (:trainerID_from_input, :activity_from_input, :startTime_from_input, :duration_from_input
         :locationID_from_input);
 
+-- Query to a update schedule information
 update schedules
 set startTime = :startTime_from_input
 where scheduleID = :scheduleID_from_input
 
+-- Query to a delete schedule information
 delete
 from schedules
 where scheduleID = :scheduleID_from_input;
@@ -92,18 +94,62 @@ where scheduleID = :scheduleID_from_input;
 
 -- Trainer Entity
 
+-- Query to list all trainer information
+select trainerName, salary, email
+from trainers;
+
+
+-- Query to a add new trainer
+insert into trainers (trainerName, salary, email)
+values (:trainerName_from_input, :salary_from_input, :email_from_input);
+
+-- Query to a update trainer information
+update trainers
+set salary = :salary_from_input
+where trainerID = :trainerID;
+
+-- Query to a delete tainer information
+delete
+from trainers
+where trainerID = :trainerID_from_input;
+
+-- Query for getting particular trainer schedule
+Select activity, activityDays, duration from Schedules
+join Trainers T on Schedules.trainerID = T.trainerID
+where trainerName = trainerName_from_input;
+
+
+
+---------------------------------------------------------------------
+ -- All of the update, list, and delete queries for the -- Inventory table
+---------------------------------------------------------------------
+
+-- Query to list all inventory information
+select equipmentName, equipmentType, equipmentQuantity, locationAddress from inventory
+join Locations L on Inventory.locationID = L.locationID
+join Equipment E on Inventory.equipmentID = E.equipmentID
+
+-- Update the number of equipments in a particular location
+update inventory
+join Equipment E on Inventory.equipmentID = E.equipmentID
+join Locations L on Inventory.locationID = L.locationID
+set equipmentQuantity = 10
+where locationAddress = :location_from_input and equipmentName = :equipmentName_from_inout
+
+-- Insert into inventory
+insert into Inventory (locationID, equipmentID, equipmentQuantity)
+values (:locationID_from_input, :equipmentID_from_input, :equipmentQuantity_from_input),
 
 
 -- Query for inventory available in a current location
 SELECT * from inventory
 join Equipment E on Inventory.equipmentID = E.equipmentID
 join Locations L on Inventory.locationID = L.locationID
-where L.locationID = 4;
+where L.locationID = :locationID_from_input;
 
--- Query for getting particular trainer schedule
-Select activity, activityDays, duration from Schedules
-join Trainers T on Schedules.trainerID = T.trainerID
-where trainerName = 'Rosamond Croshaw';
+DELETE from inventory
+where equipmentID = :equipmentID_from_input and locationID = :location_from_input
+
 
 
 
@@ -115,16 +161,8 @@ where equipmentType = 'Barbells' and equipmentQuantity > 5;
 
 
 
--- Query to Delete a customer
-DELETE from customers
-where customerID = 19;
 
--- Update the number of equipments in a particular location
-update inventory
-join Equipment E on Inventory.equipmentID = E.equipmentID
-join Locations L on Inventory.locationID = L.locationID
-set equipmentQuantity = 10
-where locationAddress = :location_from_input and equipmentName = :equipmentName_from_inout
 
--- Query to UPDATE the schedule of a location
-Delete from inventory
+
+
+
