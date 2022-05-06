@@ -29,6 +29,10 @@ where customerID = :customerID_from_input
 DELETE from Customers
 where :Customers.customerID = :customerID_from_input
 
+-- Query for Check a customer customer membership type
+select membershipType from customers
+where fname = :first_name_from_input;
+
 
 ---------------------------------------------------------------------
  -- All of the update, list, and delete queries for the -- Transactions table
@@ -59,6 +63,34 @@ DELETE from transactions
 where transactions.transactionID = :transactionID_from_input
 
 
+---------------------------------------------------------------------
+ -- All of the update, list, and delete queries for the -- Schedules table
+---------------------------------------------------------------------
+
+-- Schedules Entity
+
+-- Query to list all schedules
+select activity, activityDays, startTime, duration
+from schedules
+
+-- Query to a new schedule
+insert into schedules (trainerID, activity, activityDays, startTime, duration, locationID)
+values (:trainerID_from_input, :activity_from_input, :startTime_from_input, :duration_from_input
+        :locationID_from_input);
+
+update schedules
+set startTime = :startTime_from_input
+where scheduleID = :scheduleID_from_input
+
+delete
+from schedules
+where scheduleID = :scheduleID_from_input;
+
+---------------------------------------------------------------------
+ -- All of the update, list, and delete queries for the -- Trainer table
+---------------------------------------------------------------------
+
+-- Trainer Entity
 
 
 
@@ -73,9 +105,7 @@ Select activity, activityDays, duration from Schedules
 join Trainers T on Schedules.trainerID = T.trainerID
 where trainerName = 'Rosamond Croshaw';
 
--- Query for Check a customer customer membership type
-select membershipType from customers
-where fname = 'Pam';
+
 
 -- Query to get a location where they have more than 5 Dumbells
 select locationAddress from inventory
@@ -94,7 +124,7 @@ update inventory
 join Equipment E on Inventory.equipmentID = E.equipmentID
 join Locations L on Inventory.locationID = L.locationID
 set equipmentQuantity = 10
-where locationAddress = '14216 Monica Way' and equipmentName = 'Dumbbells'
+where locationAddress = :location_from_input and equipmentName = :equipmentName_from_inout
 
 -- Query to UPDATE the schedule of a location
 Delete from inventory
