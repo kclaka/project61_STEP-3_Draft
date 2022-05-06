@@ -141,28 +141,63 @@ insert into Inventory (locationID, equipmentID, equipmentQuantity)
 values (:locationID_from_input, :equipmentID_from_input, :equipmentQuantity_from_input),
 
 
--- Query for inventory available in a current location
+-- Query to view inventory available in a current location
 SELECT * from inventory
 join Equipment E on Inventory.equipmentID = E.equipmentID
 join Locations L on Inventory.locationID = L.locationID
-where L.locationID = :locationID_from_input;
+where L.locationAddress = :locationAddress_from_input;
 
+-- Query to remove equipment from a location
 DELETE from inventory
 where equipmentID = :equipmentID_from_input and locationID = :location_from_input
 
 
+---------------------------------------------------------------------
+ -- All of the update, list, and delete queries for the -- Location table
+---------------------------------------------------------------------
 
+-- Query to list all location information
+select locationAddress, manager
+from locations;
 
--- Query to get a location where they have more than 5 Dumbells
+-- Insert into location table
+insert into locations (locationAddress, manager)
+values (:locationAddress_from_input, :manager_from_input);
+
+-- Query to update manger information
+update locations
+set  manager = :manager_from_input
+where locationID = :locationID_from_input;
+
+-- Query to remove location data
+delete
+from location
+where locationID = :locationID_from_input;
+
+-- Query to get a location where they have more than a givenumber of  equipment
 select locationAddress from inventory
 join Equipment E on Inventory.equipmentID = E.equipmentID
 join Locations L on Inventory.locationID = L.locationID
-where equipmentType = 'Barbells' and equipmentQuantity > 5;
+where equipmentType = equipmentType_from_input and equipmentQuantity > :equipmentQuantity_from_input;
 
 
+---------------------------------------------------------------------
+ -- All of the update, list, and delete queries for the -- Equipment table
+---------------------------------------------------------------------
+-- Query to list all equipment information
+select equipmentType, equipmentName
+from equipment;
 
+-- Query to add  equipment information
+insert into equipment (equipmentType, equipmentName)
+values (:equipmentType_from_input, :equipmentName_from_inout);
 
+update equipment
+set  equipmentName = :equipmentName_from_inout
+where equipmentID = :equipmentID_from_input
 
-
-
+-- Query to remove location data
+delete
+from equipment
+where equipmentID = :equipmentID_from_input;
 
